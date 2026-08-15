@@ -1,0 +1,12 @@
+.todoCard{
+    border: solid 2px black;
+    padding: 1rem;
+}
+
+.todoContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+}
+

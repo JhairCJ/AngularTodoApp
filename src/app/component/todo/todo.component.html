@@ -5,10 +5,13 @@
 @if (error != null){
     <p> {{error}}</p>
 } @else {
-    @for (todo of todos; track todo.id) {
-        <div>
-            <p> {{todo.title}}</p>
-            <p> {{todo.description}} </p>
-        </div>
-    }
+    <div class="todoContainer">
+        @for (todo of todos; track todo.id) {
+            <div class="todoCard">
+                <p> {{todo.title}}</p>
+                <p> {{todo.description}} </p>
+            </div>
+        }
+    </div>
+
 }
