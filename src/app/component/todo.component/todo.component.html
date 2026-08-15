@@ -1,0 +1,13 @@
+<p>todo.component works!</p>
+@if (loading){
+    <p> loading</p>
+} 
+@if (error != null){
+    <p> {{error}}</p>
+} 
+    @for (todo of todos; track todo) {
+        <div>
+            <p> {{todo.title}}</p>
+            <p> {{todo.description}} </p>
+        </div>
+    }
