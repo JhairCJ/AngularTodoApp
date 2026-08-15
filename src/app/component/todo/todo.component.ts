@@ -2,15 +2,21 @@ import { TodoService, Todo } from '@/app/services/todo.service';
 import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todo',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
 })
 export class TodoComponent implements OnInit{
   private readonly todoService = inject(TodoService);
+
+  todoForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+    description: new FormControl(''),
+  });
 
   todos : Todo[] = [];
   loading = false;
@@ -38,5 +44,10 @@ export class TodoComponent implements OnInit{
         this.loading = false;
       }
     })
+  }
+
+  onSubmit(){
+    console.log(this.todoForm.value);
+    // TODO: send data to backend
   }
 }

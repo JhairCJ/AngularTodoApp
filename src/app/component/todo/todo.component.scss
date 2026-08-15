@@ -1,13 +1,17 @@
 .todoCard{
+    display: flex;
+    flex-direction: column;
     border: 0;
     border-radius: 12px;
     padding: 1rem;
     box-shadow: 0 1px 3px;
+    gap: .5rem;
 }
 
 .todoContainer{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
 }
@@ -28,6 +32,13 @@ button{
 
 .editButton{
     background-color: rgb(59, 59, 168);
+}
+
+.submitButton{
+    background-color: rgb(59, 59, 168);
+    &:disabled{
+        background-color: rgb(69, 69, 113);
+    }
 }
 
 .deleteButton{
