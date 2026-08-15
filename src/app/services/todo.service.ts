@@ -22,4 +22,8 @@ export class TodoService {
   createTodo(todo: CreateTodoDto): Observable<CreateTodoDto>{
     return this.http.post<CreateTodoDto>(`${environment.apiUrl}/todo`,todo)
   }
+
+  deleteTodo(id: number): Observable<void>{
+    return this.http.delete<void>(`${environment.apiUrl}/todo/${id}`);
+  }
 }
