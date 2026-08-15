@@ -25,12 +25,16 @@ export class TodoComponent implements OnInit{
   loading = false;
   error: string | null = null;
 
+  editingId: number | null = null;
+  isEditingTodo: boolean = false;
+
   ngOnInit(){
     this.loadTodos();
   }
 
   private loadTodos(){
     this.loading = true;
+    this.todos = []
 
     this.todoService.getTodos().subscribe({
       next: (todos) => {
@@ -48,6 +52,15 @@ export class TodoComponent implements OnInit{
   }
 
   onSubmit(){
+    if(!this.isEditingTodo){
+      this.createTodo();
+    }else{
+      this.updateTodo();
+    }
+ 
+  }
+
+  createTodo():void{
     console.log(this.todoForm.value);
     const newTodo: CreateTodoDto = {
       title: this.todoForm.controls.title.value,
@@ -66,7 +79,7 @@ export class TodoComponent implements OnInit{
     });
   }
 
-  deleteTodo(id: number){
+  deleteTodo(id: number):void{
     
     this.todos = this.todos.filter(todo => todo.id !== id);
     this.todoService.deleteTodo(id).subscribe({
@@ -78,5 +91,41 @@ export class TodoComponent implements OnInit{
         this.loadTodos();
       }
     });
+  }
+
+  editTodo(todo: Todo): void{
+    this.isEditingTodo = true;
+    this.editingId = todo.id;
+
+    this.todoForm.patchValue({
+      title: todo.title,
+      description: todo.description,
+    })
+  }
+
+  updateTodo(){
+    if(this.editingId === null){
+      return;
+    }
+    const updatedTodo: Todo = {
+      id: this.editingId,
+      title: this.todoForm.controls.title.value,
+      description: this.todoForm.controls.description.value,
+    }
+    this.todoService.updateTodo(updatedTodo).subscribe({
+      next: (todo) => {
+        console.log("todo updated", todo);
+      },
+      error: (error) => {
+        console.log ("error while updating", error);
+      },
+      complete: () => {
+        this.editingId = null;
+        this.isEditingTodo = false;
+        this.todoForm.reset();
+      }
+    })
+    this.loadTodos();
+
   }
 }

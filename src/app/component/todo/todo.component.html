@@ -10,13 +10,13 @@
     <div class="todoContainer">
         
         <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todoCard">
-            <h2>New todo</h2>
+            <h2>@if(isEditingTodo){ Edit todo } @else { New todo }</h2>
 
             <label for="title">Title</label>
             <input id="title" type="text" formControlName="title">
             <label for="description">Description</label>
             <input id="description" type="text" formControlName="description">
-            <button type="submit" [disabled]="!todoForm.valid" class="submitButton">Add todo</button>
+            <button type="submit" [disabled]="!todoForm.valid" class="submitButton">@if(isEditingTodo){ Update todo } @else { Add todo }</button>
         </form>
 
         @for (todo of todos; track todo.id) {
@@ -26,10 +26,10 @@
                     <p> {{todo.description}} </p>
                 </div>
                 <div class="buttonsContainer">
-                    <button class = "editButton">
+                    <button class = "editButton" (click)="editTodo(todo)">
                         Edit
                     </button>
-                    <button class = "deleteButton" (click)="deleteTodo(todo.id)">
+                    <button class = "deleteButton" (click)="deleteTodo(todo.id)" [disabled]="editingId === todo.id">
                         Delete
                     </button>
                 </div>

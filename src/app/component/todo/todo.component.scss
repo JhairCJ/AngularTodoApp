@@ -9,6 +9,7 @@
     height: 14rem;
     width: 10rem;
     justify-content: space-between;
+    overflow-wrap: anywhere;
 }
 
 .todoContainer{
@@ -48,6 +49,9 @@ button{
 
 .deleteButton{
     background-color: rgb(205, 67, 67);
+    &:disabled{
+        background-color: rgb(116, 48, 48);
+    }
 }
 
 .cardContent{
