@@ -13,7 +13,7 @@ export class TodoComponent implements OnInit{
   private readonly todoService = inject(TodoService);
 
   todos : Todo[] = [];
-  loading = true;
+  loading = false;
   error: string | null = null;
 
   ngOnInit(){
@@ -22,11 +22,11 @@ export class TodoComponent implements OnInit{
 
   private loadTodos(){
     this.loading = true;
-    this.error = "";
 
     this.todoService.getTodos().subscribe({
       next: (todos) => {
         console.log(todos);
+        console.log(this.error);
         this.todos = todos;
       },
       error: (error) => {
