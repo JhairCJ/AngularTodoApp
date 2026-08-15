@@ -1,6 +1,6 @@
-import { TodoService, Todo } from '@/app/services/todo.service';
+import { TodoService} from '@/app/services/todo.service';
+import { Todo, CreateTodoDto } from '@/app/models/todo.model';
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -14,7 +14,10 @@ export class TodoComponent implements OnInit{
   private readonly todoService = inject(TodoService);
 
   todoForm = new FormGroup({
-    title: new FormControl('', Validators.required),
+    title: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.required
+    }),
     description: new FormControl(''),
   });
 
@@ -31,13 +34,11 @@ export class TodoComponent implements OnInit{
 
     this.todoService.getTodos().subscribe({
       next: (todos) => {
-        console.log(todos);
-        console.log(this.error);
         this.todos = todos;
       },
       error: (error) => {
         console.log(error);
-        this.error = "Error al obtener los datos";
+        this.error = "Error fetching data";
         this.loading = false;
       },
       complete: () => {
@@ -48,6 +49,18 @@ export class TodoComponent implements OnInit{
 
   onSubmit(){
     console.log(this.todoForm.value);
-    // TODO: send data to backend
+    const newTodo: CreateTodoDto = {
+      title: this.todoForm.controls.title.value,
+      description: this.todoForm.controls.description.value,
+    };
+
+    this.todoService.createTodo(newTodo).subscribe({
+      next: (todo) => {
+        console.log(`Todo created`, todo)
+      },
+      error: (error) => {
+        console.log(`Error creating todo `, error)
+      }
+    });
   }
 }

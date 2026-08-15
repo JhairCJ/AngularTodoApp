@@ -2,13 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@/environments/environment.development';
-
-
-export interface Todo{
-  id: number;
-  title: string;
-  description: string;
-}
+import { CreateTodoDto, Todo } from '@/app/models/todo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +19,7 @@ export class TodoService {
     return this.http.put<Todo>(`${environment.apiUrl}/todo/${todo.id}`, todo);
   }
 
-  createTodo(todo: Todo): Observable<Todo>{
-    return this.http.post<Todo>(`${environment.apiUrl}/todo`,todo)
+  createTodo(todo: CreateTodoDto): Observable<CreateTodoDto>{
+    return this.http.post<CreateTodoDto>(`${environment.apiUrl}/todo`,todo)
   }
 }
