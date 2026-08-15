@@ -7,12 +7,15 @@
     box-shadow: 0 1px 3px;
     gap: .5rem;
     height: 14rem;
+    width: 10rem;
+    justify-content: space-between;
 }
 
 .todoContainer{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
     padding: 1rem;
 }
@@ -29,6 +32,7 @@ button{
 .buttonsContainer{
     display: flex;
     justify-content: space-between;
+    
 }
 
 .editButton{
@@ -44,5 +48,10 @@ button{
 
 .deleteButton{
     background-color: rgb(205, 67, 67);
+}
+
+.cardContent{
+    display: flex;
+    flex-direction: column;
 }
 
