@@ -1,6 +1,8 @@
 .todoCard{
-    border: solid 2px black;
+    border: 0;
+    border-radius: 12px;
     padding: 1rem;
+    box-shadow: 0 1px 3px;
 }
 
 .todoContainer{
@@ -8,5 +10,27 @@
     flex-direction: row;
     gap: 1rem;
     padding: 1rem;
+}
+
+button{
+    outline: inherit;
+    border-radius: 10px;
+    border: 0;
+    padding: .5rem; 
+    cursor: pointer;
+    color: white;
+}
+
+.buttonsContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.editButton{
+    background-color: rgb(59, 59, 168);
+}
+
+.deleteButton{
+    background-color: rgb(205, 67, 67);
 }
 
