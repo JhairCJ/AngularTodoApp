@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TodoService } from './services/todo.service';
-import { TodoComponent } from './component/todo.component/todo.component';
+import { TodoComponent } from './component/todo/todo.component';
 
 @Component({
   selector: 'app-root',
