@@ -57,6 +57,8 @@ export class TodoComponent implements OnInit{
     this.todoService.createTodo(newTodo).subscribe({
       next: (todo) => {
         console.log(`Todo created`, todo)
+        this.todos.push(todo as Todo);
+        this.todoForm.reset();
       },
       error: (error) => {
         console.log(`Error creating todo `, error)
