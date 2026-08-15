@@ -5,7 +5,7 @@
 @if (error != null){
     <p> {{error}}</p>
 } @else {
-    @for (todo of todos; track todo) {
+    @for (todo of todos; track todo.id) {
         <div>
             <p> {{todo.title}}</p>
             <p> {{todo.description}} </p>
