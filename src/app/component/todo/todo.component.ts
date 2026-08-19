@@ -1,7 +1,6 @@
 import { TodoService} from '@/app/services/todo.service';
 import { Todo, CreateTodoDto } from '@/app/models/todo.model';
-import { Component, inject } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -21,38 +20,38 @@ export class TodoComponent implements OnInit{
     description: new FormControl(''),
   });
 
-  todos : Todo[] = [];
-  loading = false;
-  error: string | null = null;
+  todos = signal<Todo[]>([]);
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
 
-  editingId: number | null = null;
-  isEditingTodo: boolean = false;
+  editingId = signal<number | null>(null);
+  isEditingTodo = computed<boolean>(() => this.editingId() !== null);
 
   ngOnInit(){
     this.loadTodos();
   }
 
   private loadTodos(){
-    this.loading = true;
-    this.todos = []
+    this.loading.set(true);
+    this.todos.set([]);
 
     this.todoService.getTodos().subscribe({
       next: (todos) => {
-        this.todos = todos;
+        this.todos.set(todos);
       },
       error: (error) => {
         console.log(error);
-        this.error = "Error fetching data";
-        this.loading = false;
+        this.error.set("Error fetching data");
+        this.loading.set(false);
       },
       complete: () => {
-        this.loading = false;
+        this.loading.set(false);
       }
     })
   }
 
   onSubmit(){
-    if(!this.isEditingTodo){
+    if(!this.isEditingTodo()){
       this.createTodo();
     }else{
       this.updateTodo();
@@ -70,18 +69,20 @@ export class TodoComponent implements OnInit{
     this.todoService.createTodo(newTodo).subscribe({
       next: (todo) => {
         console.log(`Todo created`, todo)
-        this.todos.push(todo as Todo);
+        this.todos().push(todo as Todo);
         this.todoForm.reset();
       },
       error: (error) => {
-        console.log(`Error creating todo `, error)
+        console.log(`Error creating todo `, error);
+        this.error.set(error.message);
       }
     });
   }
 
   deleteTodo(id: number):void{
-    
-    this.todos = this.todos.filter(todo => todo.id !== id);
+    this.todos.update( 
+      todos => todos.filter(todo => todo.id !== id) 
+    );
     this.todoService.deleteTodo(id).subscribe({
       next: () => {
         console.log(`Todo deleted`, id);
@@ -94,8 +95,7 @@ export class TodoComponent implements OnInit{
   }
 
   editTodo(todo: Todo): void{
-    this.isEditingTodo = true;
-    this.editingId = todo.id;
+    this.editingId.set(todo.id);
 
     this.todoForm.patchValue({
       title: todo.title,
@@ -104,11 +104,12 @@ export class TodoComponent implements OnInit{
   }
 
   updateTodo(){
-    if(this.editingId === null){
+    const editingId = this.editingId()
+    if(editingId === null){
       return;
     }
     const updatedTodo: Todo = {
-      id: this.editingId,
+      id: editingId,
       title: this.todoForm.controls.title.value,
       description: this.todoForm.controls.description.value,
     }
@@ -120,8 +121,7 @@ export class TodoComponent implements OnInit{
         console.log ("error while updating", error);
       },
       complete: () => {
-        this.editingId = null;
-        this.isEditingTodo = false;
+        this.editingId.set(null);
         this.todoForm.reset();
       }
     })

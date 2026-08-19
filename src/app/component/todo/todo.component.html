@@ -1,25 +1,29 @@
-<p>todo.component works!</p>
-@if (loading){
+<h1>Todo app with Angular & Spring</h1>
+@if (loading()){
     <p> loading</p>
-} 
-@if (error != null){
-    <p> {{error}}</p>
+} @else if (error() != null){
+    <p> {{error()}}</p>
 } @else {
-    <h1>Todo app with Angular & Spring</h1>
 
     <div class="todoContainer">
         
         <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todoCard">
-            <h2>@if(isEditingTodo){ Edit todo } @else { New todo }</h2>
+            <h2>@if(isEditingTodo()){ Edit todo } @else { New todo }</h2>
 
             <label for="title">Title</label>
             <input id="title" type="text" formControlName="title">
             <label for="description">Description</label>
             <input id="description" type="text" formControlName="description">
-            <button type="submit" [disabled]="!todoForm.valid" class="submitButton">@if(isEditingTodo){ Update todo } @else { Add todo }</button>
+            <button type="submit" [disabled]="!todoForm.valid" class="submitButton">
+                @if(isEditingTodo()){ 
+                    Update todo 
+                } @else { 
+                    Add todo 
+                }
+            </button>
         </form>
 
-        @for (todo of todos; track todo.id) {
+        @for (todo of todos(); track todo.id) {
             <div class="todoCard">
                 <div class="cardContent">
                     <p> {{todo.title}}</p>
@@ -29,7 +33,7 @@
                     <button class = "editButton" (click)="editTodo(todo)">
                         Edit
                     </button>
-                    <button class = "deleteButton" (click)="deleteTodo(todo.id)" [disabled]="editingId === todo.id">
+                    <button class = "deleteButton" (click)="deleteTodo(todo.id)" [disabled]="editingId() === todo.id">
                         Delete
                     </button>
                 </div>
