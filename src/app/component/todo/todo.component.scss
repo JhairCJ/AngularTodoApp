@@ -6,10 +6,10 @@
     padding: 1rem;
     box-shadow: 0 1px 3px;
     gap: .5rem;
-    height: 14rem;
     width: 10rem;
     justify-content: space-between;
-    overflow-wrap: anywhere;
+    overflow: hidden;
+    height: auto;
 }
 
 .todoContainer{
@@ -59,3 +59,18 @@ button{
     flex-direction: column;
 }
 
+.todoTitle{
+    font-size: 1.25rem;
+    font-weight: bold;
+
+}
+
+.todoDescription{
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.todoContent{
+    display: flex;
+    flex-direction: column;
+}

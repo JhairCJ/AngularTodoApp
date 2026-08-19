@@ -26,8 +26,8 @@
         @for (todo of todos(); track todo.id) {
             <div class="todoCard">
                 <div class="cardContent">
-                    <p> {{todo.title}}</p>
-                    <p> {{todo.description}} </p>
+                    <h2 class="todoTitle"> {{todo.title}}</h2>
+                    <p class="todoDescription"> {{todo.description}} </p>
                 </div>
                 <div class="buttonsContainer">
                     <button class = "editButton" (click)="editTodo(todo)">
